@@ -1,0 +1,22 @@
+{
+  "name": "oreilly_fortune_telling",
+  "version": "1.0.0",
+  "description": "original npm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shirotamaki/oreilly_fortune_telling.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shirotamaki/oreilly_fortune_telling/issues"
+  },
+  "homepage": "https://github.com/shirotamaki/oreilly_fortune_telling#readme",
+  "dependencies": {
+    "enquirer": "^2.3.6"
+  }
+}
