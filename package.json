@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/shirotamaki/oreilly_fortune_telling#readme",
   "dependencies": {
-    "enquirer": "^2.3.6"
+    "enquirer": "^2.3.6",
+    "node-fetch": "^2.6.6"
   }
 }
