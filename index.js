@@ -1,46 +1,48 @@
 #!/usr/bin/env node
 'use strict'
 
-const Enquirer = require('enquirer');
+const { Quiz } = require('enquirer');
 const fs = require('fs')
+const list_of_questions = require('./list_of_questions.js')
+const oreilly_animals = require('./oreilly_animals.js')
 
-// 動物リストを取得
-function main() {
-  fs.readFile( "./oreilly_animals.json", { encoding: "utf8" }, (err, file) => {
-   if(err) {
-     console.error(err.message)
-   } else {
-     const obj = JSON.parse(file)  // JSON.parseすることでオブジェクトして返す
-     console.log(obj[0]["powers"][0])
-   }
-  });
-}
+// クイズ用メソッド
+function quiz() {
+  const random = Math.floor(Math.random() * (5 - 0)) + 0
+  const question = list_of_questions[random].message
+  const answers = list_of_questions[random].choices.flat()
+  const correctAnswer = list_of_questions[random].correctChoice
+  const prompt = new Quiz({
+    name: 'answer',     // 選択された答えのオブジェクト
+    message: question,  // 質問文
+    choices: answers,    // クイズの答えの候補のリスト
+    correctChoice: correctAnswer   //クイズの答え
+  })
 
-async function quiz() {
-  fs.readFile( "./list_of_questions.json", { encoding: "utf8" }, (err, file) => {
-    if(err) {
-      console.error(err.message)
+  prompt
+  .run()
+  .then((answerObj) => {
+    if (answerObj.correct) {
+      console.log('正解！')
     } else {
-      // console.log(questions)// JSON.parseすることでオブジェクトして返す
-      const prompt = new Promise((resolve) => {
-        const question = JSON.parse(file)
-        const values = {
-        type: 'select',
-        name: 'question',
-        message: "質問",
-        choices: questions
-        }
-        const answer = Enquirer.prompt(values)
-        answer.then(({ questions}) => {
-
-        })
-      })
+      console.log('残念、不正解')
     }
   })
+  .catch(console.error)
 }
 
-
 quiz()
-// main()
+
+// 書籍データ出力用メソッド
+function selectAnimal() {
+  const random = Math.floor(Math.random() * (5 - 0)) + 0
+  const animal = oreilly_animals[random]
+  console.log(`アニマル名: ${animal.animal}`)
+  console.log(`カバー写真: ${animal.cover_src}`)
+  console.log(`書籍のリンク: ${animal.link}`)
+  console.log(`書籍のタイトル: ${animal.title}`)
+}
+
+selectAnimal()
 
 
