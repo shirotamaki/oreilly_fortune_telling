@@ -7,35 +7,41 @@ const list_of_questions = require('./list_of_questions.js')
 const oreilly_animals = require('./oreilly_animals.js')
 const readline = require('readline')
 
-class SetUp {
-  constructor() {
 
-  }
-  async prologue () {
-    console.log('クイズに答えることで、あたなにお薦めのオライリー本（動物）をお薦めするよ！\n始めるには何かキーを押してください')
-
-  }
+function wait () {
+    readline.emitKeypressEvents(process.stdin)
+    process.stdin.setRawMode(true)
+    process.stdin.resume()
 }
-
-function inputName (question) {
-  const data = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  })
-
-  return new Promise((resolve, reject) => {
-    data.question(question, (answer) => {
-      resolve(answer)
-      data.close()
+  async function readUserInput (question) {
+    const inputData = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
     })
-  })
-}
 
-(async function main () {
-  const name = await inputName('まずはあたなのことを教えてね\nニックネームを入力してエンターを押してね♪\n')
-  // console.log(name)
-  console.log(`ありがとう、${name}さん！\nこれで準備はバッチリだよ\nそれでは、早速クイズを始めよう♪\nこれから5問クイズを出題するよ\n４つの中から答えを選択してね♪`)
-  })();
+    return new Promise((resolve, reject) => {
+      inputData.question(question, (answer) => {
+        resolve(answer)
+        inputData.close()
+      })
+    })
+  }
+
+(async function start () {
+  console.log(`クイズに答えることで、あたなにお薦めのオライリー本（動物）をお薦めするよ！\n始めるには何かキーを押してください`)
+  const name = await readUserInput(`まずはあなたのことを教えてね\nニックネームを入力してエンターを押してね\n`)
+  console.log(`ありがとう、${name}さん！`)
+  const food = await readUserInput(`次はあなたの好きな食べ物を入力してね\n`)
+  console.log(`${food}が好きなんだね！ぼくも大好きだよ😆`)
+  const wait = () => {
+  process.stdin.on('data', (key => {
+    if (key === '\r') {
+      process.exit(0)
+    }
+    }))
+  }
+})()
+
 
 
 // クイズ用メソッド
@@ -57,7 +63,7 @@ function quiz() {
     if (answerObj.correct) {
       console.log('正解！')
     } else {
-      console.log('残念、不正解')
+      console.log('残念、不正解！')
     }
   })
   .catch(console.error)
@@ -77,5 +83,7 @@ function selectAnimal() {
 }
 
 // selectAnimal()
+
+
 
 
