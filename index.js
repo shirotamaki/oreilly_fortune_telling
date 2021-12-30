@@ -8,11 +8,11 @@ const oreilly_animals = require('./oreilly_animals.js')
 const readline = require('readline')
 
 
-function wait () {
-    readline.emitKeypressEvents(process.stdin)
-    process.stdin.setRawMode(true)
-    process.stdin.resume()
-}
+// function wait () {
+//     readline.emitKeypressEvents(process.stdin)
+//     process.stdin.setRawMode(true)
+//     process.stdin.resume()
+// }
   async function readUserInput (question) {
     const inputData = readline.createInterface({
       input: process.stdin,
@@ -34,11 +34,9 @@ function wait () {
   const food = await readUserInput(`次はあなたの好きな食べ物を入力してね\n`)
   console.log(`${food}が好きなんだね！ぼくも大好きだよ😆`)
   const wait = () => {
-  process.stdin.on('data', (key => {
-    if (key === '\r') {
-      process.exit(0)
-    }
-    }))
+  process.stdin.on('keypress', (c, k) => {
+     quiz()
+    })
   }
 })()
 
