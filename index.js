@@ -13,13 +13,15 @@ const readline = require('readline')
 //     process.stdin.setRawMode(true)
 //     process.stdin.resume()
 // }
+
+// questionを引数で受けて、CLI上にquestionを表示。次に標準入力の受け付け状態になる、入力後エンターを押すと終了
   async function readUserInput (question) {
     const inputData = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
     })
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       inputData.question(question, (answer) => {
         resolve(answer)
         inputData.close()
@@ -27,20 +29,26 @@ const readline = require('readline')
     })
   }
 
-(async function start () {
-  console.log(`クイズに答えることで、あたなにお薦めのオライリー本（動物）をお薦めするよ！\n始めるには何かキーを押してください`)
+  async function greeting() {
+    console.log(`クイズに答えることで、あたなにお薦めのオライリー本（動物）をお薦めするよ！`)
+  }
+
+  async function explain() {
+    console.log()
+  }
+
+async function start () {
+  await greeting()
   const name = await readUserInput(`まずはあなたのことを教えてね\nニックネームを入力してエンターを押してね\n`)
   console.log(`ありがとう、${name}さん！`)
   const food = await readUserInput(`次はあなたの好きな食べ物を入力してね\n`)
-  console.log(`${food}が好きなんだね！ぼくも大好きだよ😆`)
-  const wait = () => {
-  process.stdin.on('keypress', (c, k) => {
-     quiz()
-    })
-  }
-})()
+  console.log(`${food}が好きなんだね！`)
+  const answer = await quiz()
+  console.log(answer)
+  await selectAnimal()
+}
 
-
+start()
 
 // クイズ用メソッド
 function quiz() {
@@ -81,7 +89,3 @@ function selectAnimal() {
 }
 
 // selectAnimal()
-
-
-
-
