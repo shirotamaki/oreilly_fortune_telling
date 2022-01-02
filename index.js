@@ -44,10 +44,6 @@ async function start () {
   console.log(`${food}が好きなんだね！`)
   const answer1 = await quiz()
   console.log(answer1)
-  const answer2 = await quiz()
-  console.log(answer2)
-  // let answer = await quiz()
-  // console.log(answer)
 }
 
 start()
